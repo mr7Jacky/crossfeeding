@@ -16,29 +16,46 @@
 # 8. Compile the code for Mutualism with Toxicity in debug mode
 #    g++ *.cpp -D DEBUG -D TOXICITY -D MUTUALISM
 
-G = g++
-DEBUG = -D DEBUG #Debug mode
-C = *.cpp -O3
+G = g++ -I ./include
+
+SRC = ./src
+BIN = ./bin
+OBJ = ./obj
+INC = ./include
+
+vpath %.h ./include
+vpath %.cpp ./src
+
+DEBUG = -D DEBUG
 TOX = -D TOXICITY
 MUTUAL = -D MUTUALISM
 
-commensalism:
-	$(G) $(C)
-commensalism-d:
-	$(G) $(C) $(DEBUG)
+C = $(SRC)/*.cpp
+LIB = $(INC)/Array.h $(INC)/ClockIt.h $(INC)/Lattice.h $(INC)/tools.h
 
-syntrophy:
-	$(G) $(C) $(TOX)
-syntrophy-d:
-	$(G) $(C) $(TOX) $(DEBUG)
+EXEC = commensalism syntrophy mutualism mutualism-tox
+EXECD = commensalism syntrophy mutualism mutualism-tox
 
-mutualism:
-	$(G) $(C) $(MUTUAL)
-mutualism-d:
-	$(G) $(C) $(MUTUAL) $(DEBUG)
+all: $(EXEC)
+all-d: $(EXECD)
 
-mutualism-tox:
-	$(G) $(C) $(MUTUAL) $(TOX)
-mutualism-tox-d:
-	$(G) $(C) $(TOX) $(MUTUAL) $(DEBUG)
+commensalism: $(LIB) $(C)
+	$(G) $(C) -O3 -o $(BIN)/commensalism
+commensalism-d: $(LIB) $(C)
+	$(G) $(C) $(DEBUG) -o $(BIN)/commensalism
+
+syntrophy: $(LIB) $(C)
+	$(G) $(C) -O3 $(TOX) -o $(BIN)/syntrophy
+syntrophy-d: $(LIB) $(C)
+	$(G) $(C) $(TOX) $(DEBUG) -o $(BIN)/syntrophy
+
+mutualism: $(LIB) $(C)
+	$(G) $(C) -O3 $(MUTUAL) -o $(BIN)/commensalism
+mutualism-d: $(LIB) $(O) $(C)
+	$(G) $(C) $(MUTUAL) $(DEBUG) -o $(BIN)/mutualism
+
+mutualism-tox: $(LIB) $(C)
+	$(G) $(C) -O3 $(MUTUAL) $(TOX) -o $(BIN)/mutualism-tox
+mutualism-tox-d: $(LIB) $(C)
+	$(G) $(C) $(TOX) $(MUTUAL) $(DEBUG) -o $(BIN)/mutualism-tox
 
