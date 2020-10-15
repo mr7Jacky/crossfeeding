@@ -3,7 +3,7 @@ maxGrowthRate2	1
 excretionRateB	10
 diffusion1	0.5
 diffusion2	0.5
-diffusionB	200
+diffusionB	20
 yieldB	1
 monodConstantB	0.1
 t_max	10000

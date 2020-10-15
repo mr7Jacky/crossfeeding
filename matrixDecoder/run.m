@@ -1,5 +1,5 @@
 outName = 'diffB200';
-dirName = '../output/';
+dirName = '../Data/';
 
 %% Load the data Create the gif
 txt2gif(outName,dirName);
