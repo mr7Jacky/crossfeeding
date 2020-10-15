@@ -36,7 +36,7 @@ char* GetNextString(char*& buffer)
     return out;
 };
 
-param ReadParameters(char* fname)
+param ReadParameters(char* fname, char* outDir)
 {
     
 #ifdef _WIN32
@@ -61,6 +61,13 @@ param ReadParameters(char* fname)
     
     param p;
     
+#ifdef _WIN32
+    strcpy_s(p.DirName, outDir);
+#else
+    strcpy(p.DirName, outDir);
+#endif  
+    mkDir(p.DirName);
+
     while((data_string = GetNextString(buffer)))
     {
 
@@ -96,16 +103,6 @@ param ReadParameters(char* fname)
             p.BoxX = atoi(var_value);
         else if (strcmp(var_name,"BoxY")==0)
             p.BoxY = atoi(var_value);
-        else if (strcmp(var_name,"DirName")==0)
-        {
-#ifdef _WIN32
-            strcpy_s(p.DirName, var_value);
-#else
-            strcpy(p.DirName, var_value);
-#endif
-            
-            mkDir(p.DirName);
-        }
         else if  (strcmp(var_name,"excretionRateA")==0)
         {
 #ifdef MUTUALISM

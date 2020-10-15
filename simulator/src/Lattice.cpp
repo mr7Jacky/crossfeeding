@@ -3,10 +3,10 @@
 #include <math.h>
 #include "Lattice.h"
 
-lattice::lattice(char* fname)
+lattice::lattice(char* fname, char* outDir)
 {
     srand (time(NULL));
-    P = ReadParameters(fname);
+    P = ReadParameters(fname, outDir);
     D = new Array2D<data>(P.BoxX,P.BoxY);
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
@@ -809,7 +809,7 @@ void lattice::simulation(int numOutput)
 //            totalCellNum = countCells(cell1Num, cell2Num);
 //            printf("%d %.4e %ld %ld %.4e %d %d %d\n", outputID, t, totalNumEvents, LONG_MAX, totalEventWeight, cell1Num, cell2Num, totalCellNum);
 //            printf("%d %.4e %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %.4e %d %d %d\n", outputID, t, numEvents[0],numEvents[1],numEvents[2],numEvents[3],numEvents[4],numEvents[5],numEvents[6],numEvents[7],numEvents[8],numEvents[9],numEvents[10], totalEventWeight, cell1Num, cell2Num, totalCellNum);//CELLS INFO
-            printf("Working on %d/%d simulation", outputID, numOutput);
+            printf("Working on %d/%d simulation\n", outputID, numOutput);
             fflush(stdout);
             outputID++;
             outputFlag = 0;

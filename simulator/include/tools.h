@@ -137,7 +137,7 @@ int GetFileLen(FILE* myFile);
 
 char* GetNextString(char*& buffer);
 
-param ReadParameters(char* fname);
+param ReadParameters(char* fname, char* outDir);
 
 #endif /* TOOLS_H_ */
 

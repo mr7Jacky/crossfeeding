@@ -15,7 +15,7 @@ struct eventInfo
 class lattice
 {
 public:
-    lattice(char* fname);
+    lattice(char* fname, char* outDir);
     ~lattice();
     void putInitialCells(int initialSeparation);
     void calculateEventRate();

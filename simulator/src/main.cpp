@@ -26,7 +26,7 @@
 // #####################################
 //
 // To run the code:
-//    ./a.out in1.txt 100
+//    ./a.out in1.txt 100 outDir
 // in1.txt is the name of the input file, 100 the number of files you would like the program to output.
 // All the parameters are included in the input file, and can be changed.
 // The name of the input file can also be changed.
@@ -34,6 +34,10 @@
 
 int main(int argc, char* argv[])
 {
+    if(argc < 4) {
+        printf("Usage:\n[relations executable] [parameter file] [number rounds] [output directory]\n");
+        exit(-1);
+    }
 #if defined(MUTUALISM) && defined(TOXICITY)
     printf("Mutualism with toxicity is selected.\n");
 #elif defined(MUTUALISM)
@@ -43,7 +47,7 @@ int main(int argc, char* argv[])
 #else
     printf("Commensalism is selected.\n");
 #endif
-    lattice L(argv[1]);
+    lattice L(argv[1],argv[3]);
     L.simulation(atoi(argv[2]));
     return 0;
 }

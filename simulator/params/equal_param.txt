@@ -10,7 +10,6 @@ t_max	1000
 BoxX	1500
 BoxY	1500
 BoxLength	1
-DirName 	output
 excretionRateA	1
 yieldA	1
 diffusionA	1
