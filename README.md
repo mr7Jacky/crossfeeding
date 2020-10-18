@@ -31,12 +31,12 @@ All functions of visualization contain in the file [run.m](matrixDecoder/run.m)
 
 > Before use the run.m use add the folder and its subfolder to the path in matlab
 
-* Currently support functions
+Currently support functions
 1. Create the `.gif` file to illustrate:
 	* the change of the distribution of different types of cells 
 	* the concentration of the nutrients
 2. Plot the radius of the matrix as a function of time
-> The radius refers to the average of furthest data points from center
+*(The radius refers to the average of furthest data points from center)*
 3. Plot the population of the bacteria
 4. Plot the distribution of the nutrient along with x-axis or y-axis
 
