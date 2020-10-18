@@ -12,17 +12,21 @@ function txt2gif(outputName,inDir)
     files = dir(dirName);
     files = natsortfiles({files.name});
     cells = cell(1,length(files));
-    concentrates = cell(1,length(files));
+    concen_A = cell(1,length(files));
+    concen_B = cell(1,length(files));
     for i=1:length(files)
         fileName = strcat(inDir,files{1,i});
-        [cur_cell,cur_concen] = decodeMatrix(fileName);
+        cur_mat = decodeMatrix(fileName, 3);
         fprintf('Working on %s.\n',fileName)
-        cells{1,i} = cur_cell;
-        concentrates{1,i} = cur_concen;
+        cells{1,i} = cur_mat{1};
+        concen_A{1,i} = cur_mat{2};
+        concen_B{1,i} = cur_mat{3};
     end
     fprintf('Creating gif for bacteria.\n')
     gifCreate(cells,strcat(outputName,'-cells.gif'),1);
-    fprintf('Creating gif for concentration.\n')
-    gifCreate(concentrates,strcat(outputName,'-concentrates.gif'),0);
+    fprintf('Creating gif for concentration A.\n')
+    gifCreate(concen_A,strcat(outputName,'-concen_A.gif'),0);
+    fprintf('Creating gif for concentration B.\n')
+    gifCreate(concen_B,strcat(outputName,'-concen_B.gif'),0);
 end
 

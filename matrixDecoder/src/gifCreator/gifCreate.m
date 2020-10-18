@@ -9,6 +9,14 @@ function gifCreate(dataset,filename, isColor)
 % the given name, one for the placement, and one for concentration.
     set(gcf,'renderer','OpenGL');
 	[~,col] = size(dataset);
+    global_max = 0;
+    for n = 1:col
+        cur_data = dataset{1,n};
+        local_max = max(max(cur_data));
+        if local_max > global_max
+            global_max = local_max;
+        end
+    end
     for n = 1:col
         cur_data = dataset{1,n};
         
@@ -26,8 +34,7 @@ function gifCreate(dataset,filename, isColor)
 %             cur_data = (cur_data);
 %             cur_data = sigmoid(cur_data)*150;
 %             cur_data = extractdata(cur_data);
-            max_value = max(max(cur_data));
-            cur_data = cur_data.*(255/max_value);
+            cur_data = cur_data.*(255/global_max);
             if n == 1
                 imwrite(cur_data,filename,'gif', 'Loopcount',inf);
             else

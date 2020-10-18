@@ -1,5 +1,5 @@
-outName = 'diffB200';
-dirName = '../Data/';
+outName = 'equal_param';
+dirName = 'data/';
 
 %% Load the data Create the gif
 txt2gif(outName,dirName);
@@ -9,3 +9,5 @@ plotRad(dirName);
 
 %% Plot the population
 plotPop(dirName);
+%%
+distPlot(dirName);
