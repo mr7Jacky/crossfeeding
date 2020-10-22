@@ -34,7 +34,7 @@ C = $(SRC)/*.cpp
 LIB = $(INC)/Array.h $(INC)/ClockIt.h $(INC)/Lattice.h $(INC)/tools.h
 
 EXEC = commensalism syntrophy mutualism mutualism-tox
-EXECD = commensalism syntrophy mutualism mutualism-tox
+EXECD = commensalism-d syntrophy-d mutualism-d mutualism-tox-d
 
 all: $(EXEC)
 all-d: $(EXECD)

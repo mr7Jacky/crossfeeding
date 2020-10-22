@@ -12,7 +12,9 @@
 
 int mkDir(const char *path);
 
-const double PI = 3.141592653589793238462643383279502884197;
+//const double PI = 3.141592653589793238462643383279502884197;
+
+const double PI = 3.14159;
 
 #ifdef NDEBUG
 inline void MyAssert(bool b, const char* msg){}

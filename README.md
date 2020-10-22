@@ -44,5 +44,13 @@ Currently support functions
 All current output data are store in [Data](Data/). 
 
 Currently tested:
-1. Equal parameters (with toxicity / without toxcity)
+1. Equal parameters (with toxicity / without toxicity)
 2. Excretion B 10 times larger than excretion A
+
+#### Reports
+All report will be store in the directory [report](report/)
+
+Quick access:
+|Data Update|Model Type|With Toxicity|File|Parameter|
+|:-:|:-:|:-:|:-:|:-:|
+|2020/10/19|Mutualism|Yes|[link](../)|[param.txt](Data/)|
