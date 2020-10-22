@@ -1,6 +1,11 @@
 %plot distribution
-function distPlot(inDir)
-    gap = 5;
+function distPlot(inDir,type, gap)
+    if type == 'A'
+        pos = 3;
+    elseif type == 'B'
+        pos = 2;
+    end
+    
     dirName = strcat(inDir,'*.txt');
     files = dir(dirName);
     files = natsortfiles({files.name});
@@ -11,12 +16,15 @@ function distPlot(inDir)
             fileName = strcat(inDir,files{1,i});
             cur_mat = decodeMatrix(fileName, 3);
             fprintf('Working on %s.\n',fileName)
-            data = smoothdata(cur_mat{3}(750,:));
+            data = smoothdata(cur_mat{pos}(750,:));
             plot(x,data)
         end
     end
-    legend('1','2','3','4','5','6')
     hold off
+    leg = gap:gap:length(files);
+    leg = split(cellstr(num2str(leg)));
+    legend(leg)
+    title(['Nutrient ',type,' distribution at middle line'])
         
 end
 

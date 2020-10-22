@@ -16,9 +16,9 @@ function plotTotNutrient(inDir)
     time = 1:length(files);
     figure
     hold on
-    plot(time,nutrientA)
-    plot(time,nutrientB)
-    legend('Nutrient A','Nutrient B')
+    plot(time,nutrientA,'.-')
+    plot(time,nutrientB,'.-')
+    legend('Nutrient A','Nutrient B','Location','southeast' )
     title('Nutrient growth')
     hold off
 end

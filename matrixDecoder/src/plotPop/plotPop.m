@@ -16,14 +16,21 @@ function plotPop(inDir,isLog, thres)
         size1(1,i) = calPopulation(cur_mat{1},1);
         size2(1,i) = calPopulation(cur_mat{1},2);
     end
+    figure
+    hold on 
+    time = 1:length(files);
+    
     if isLog == 1
         size1 = log(size1);
         size2 = log(size2);
+        m = max( max(size1),max(size2));
+        upper = ceil(m);
+        ytick=exp(1).^(1:upper+1);
+        yticklab = cellstr(num2str(round(log(ytick(:))), 'e^{%d}'));
+        set(gca,'YTick',(1:upper),'YTickLabel',yticklab,'TickLabelInterpreter','tex')
     end
-    time = 1:length(files);
-    figure
-    hold on 
-    semilogy(time,size1,'.')
+    
+    plot(time,size1,'.')
     if isLog == 1
         grad = gradient(size1);
         threshold = find(grad > max(grad)/thres);
@@ -38,7 +45,7 @@ function plotPop(inDir,isLog, thres)
         caption1 = sprintf('fit-line-1: y = %f * x + %f', P(1), P(2));
     end
     
-    semilogy(time,size2,'.')
+    plot(time,size2,'.')
     if isLog == 1
         grad2 = gradient(size2);
         threshold2 = find(grad2 > max(grad2)/thres);
@@ -51,9 +58,9 @@ function plotPop(inDir,isLog, thres)
         yfit2 = P(1)*x2+P(2);
         plot(x2,yfit2)
         caption2 = sprintf('fit-line-2: y = %f * x + %f', P(1), P(2));
-        legend('Type 1',caption1,'Type 2',caption2)
+        legend('Type 1',caption1,'Type 2',caption2,'Location','southeast')
     else
-        legend('Type 1','Type 2')
+        legend('Type 1','Type 2','Location','southeast')
     end
     hold off
     grid

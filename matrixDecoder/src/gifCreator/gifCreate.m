@@ -7,8 +7,9 @@ function gifCreate(dataset,filename, isColor)
 % isColor: determine whether output with color(1) or gray scale(0)
 % Output: two gif file stored in current directory with 
 % the given name, one for the placement, and one for concentration.
-    set(gcf,'renderer','OpenGL');
-	[~,col] = size(dataset);
+set(gcf,'renderer','OpenGL');
+[~,col] = size(dataset);
+if ~isColor
     global_max = 0;
     for n = 1:col
         cur_data = dataset{1,n};
@@ -17,30 +18,33 @@ function gifCreate(dataset,filename, isColor)
             global_max = local_max;
         end
     end
-    for n = 1:col
-        cur_data = dataset{1,n};
-        
-        if (isColor)
-            [cur_data,~] = gray2ind(cur_data);
-            cur_data=ind2rgb(cur_data,jet(150));
-            [cur_data,map] = rgb2ind(cur_data,256);
-            if n == 1
-                imwrite(cur_data,map,filename,'gif', 'Loopcount',inf);
-            else
-                imwrite(cur_data,map,filename,'gif','WriteMode','append');
-            end
+end
+for n = 1:col
+    cur_data = dataset{1,n};
+
+    if (isColor)
+        dist = mat2jet(cur_data);
+        im_t2 = createNote(50,200,2,'Type 2');
+        im_t1 = createNote(50,200,1,'Type 1');
+        img = cat(1,im_t1,im_t2);
+        X = 20;
+        Y = 20;
+        dist((1:size(img,1))+X,(1:size(img,2))+Y,:) = img;
+        img = image(dist);
+        [img,map] = rgb2ind(img.CData,256);
+        if n == 1
+            imwrite(img,map,filename,'gif', 'Loopcount',inf);
         else
-%             cur_data = dlarray(cur_data);
-%             cur_data = (cur_data);
-%             cur_data = sigmoid(cur_data)*150;
-%             cur_data = extractdata(cur_data);
-            cur_data = cur_data.*(255/global_max);
-            if n == 1
-                imwrite(cur_data,filename,'gif', 'Loopcount',inf);
-            else
-                imwrite(cur_data,filename,'gif','WriteMode','append');
-            end
+            imwrite(img,map,filename,'gif','WriteMode','append');
         end
-        
+    else
+        cur_data = cur_data.*(255/global_max);
+        if n == 1
+            imwrite(cur_data,filename,'gif', 'Loopcount',inf);
+        else
+            imwrite(cur_data,filename,'gif','WriteMode','append');
+        end
     end
+
+end
 end
