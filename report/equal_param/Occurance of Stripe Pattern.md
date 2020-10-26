@@ -40,7 +40,7 @@ Let's see the pattern (right figure) with the same parameter as the left one, bu
   <img src="./src/fig/toxAB20.gif" width="400" /> 
 </p>
 
-As we can observe, the type 1 overtly has a larger population compare to type 2, At the same time the stripe pattern become such a pattern with discontiguous dots in stead of curving linear stripes. Our assumption is that the loss of the continuous uni-type region stripe is due the toxicity of the nutrient. The colony of type 2 is shrinking into dots due to they are less tolerant to nutrient B. As a co-effect, the total population of type 2 is decreasing compare to the population of type 2 in the setting with no toxicity.
+As we can observe, the type 1 overtly has a larger population compare to type 2, At the same time the stripe pattern become such a pattern with discontiguous dots in stead of curving linear stripes. Our assumption is that the loss of the continuous uni-type region stripe is due to the toxicity of the nutrient. The colony of type 2 is shrinking into dots because they are less tolerant to nutrient B. At the same time, the total population of type 2 is decreasing compare to the population of type 2 in the setting with no toxicity.
 
 ##### Plan
 
