@@ -23,10 +23,10 @@ function txt2gif(outputName,inDir)
         concen_B{1,i} = cur_mat{3};
     end
     fprintf('Creating gif for bacteria.\n')
-    gifCreate(cells,strcat(outputName,'-cells.gif'),1);
+    gifCreate(cells,strcat(outputName,'cells.gif'),1);
     fprintf('Creating gif for concentration A.\n')
-    gifCreate(concen_A,strcat(outputName,'-concen_A.gif'),0);
+    gifCreate(concen_A,strcat(outputName,'concen_A.gif'),0);
     fprintf('Creating gif for concentration B.\n')
-    gifCreate(concen_B,strcat(outputName,'-concen_B.gif'),0);
+    gifCreate(concen_B,strcat(outputName,'concen_B.gif'),0);
 end
 
