@@ -5,7 +5,7 @@ int mkDir(const char *path)
 {
 #ifdef _WIN32
     return ::_mkdir(path);
-#elif __linux__ 
+#elif __unix__
     return ::mkdir(path, 0755);
 #elif _POSIX_C_SOURCE
     return ::mkdir(path);

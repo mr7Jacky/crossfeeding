@@ -837,8 +837,8 @@ void lattice::writeToFile(int OutputID)
    sprintf_s(fileName,"%s/%d.txt",P.DirName,OutputID);
    fopen_s(&out, fileName, "w"); 
 #else
-    sprintf(fileName, "%s/%d.txt", P.DirName, OutputID);
-    out = fopen(fileName, "w");
+   sprintf(fileName, "%s/%d.txt", P.DirName, OutputID);
+   out = fopen(fileName, "w");
 #endif
     
 
