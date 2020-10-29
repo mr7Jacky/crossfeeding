@@ -47,6 +47,5 @@ As we can observe, the type 1 overtly has a larger population compare to type 2,
 We will test the following parameter to verify our hypothesis (All three setting have a Diffusion 1 = Diffusion 2 = 0)
 
 1. EQUAL TOXICITY: Diffusion A = Diffusion B = 10; Toxicity A = Toxicity B = 1
-2. NO TOX: Diffusion A = Diffusion B = 10; Toxicity A = Toxicity B = 0
+2. NO TOX: Diffusion A = Diffusion B = 10; Toxicity A = Toxicity B = 0 (Mutualism mode)
 3. DIFFERENT TOX: Diffusion A = Diffusion B = 10; Toxicity A = 1; Toxicity B = 10
-
