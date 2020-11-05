@@ -8,7 +8,7 @@ txt2gif(outName,dirName);
 % plotRad(dirName);
 
 %% Plot the populatio
-plotPop(dirName,1,3);
+plotPop(dirName,0,3);
 
 %%
 distPlot(dirName,'B',10);

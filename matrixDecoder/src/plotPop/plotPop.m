@@ -16,19 +16,10 @@ function plotPop(inDir,isLog, thres)
         size1(1,i) = calPopulation(cur_mat{1},1);
         size2(1,i) = calPopulation(cur_mat{1},2);
     end
-    figure
+    figure(1)
+    set(gca,'yscale','log')
     hold on 
     time = 1:length(files);
-    
-    if isLog == 1
-        size1 = log(size1);
-        size2 = log(size2);
-        m = max( max(size1),max(size2));
-        upper = ceil(m);
-        ytick=exp(1).^(1:upper+1);
-        yticklab = cellstr(num2str(round(log(ytick(:))), 'e^{%d}'));
-        set(gca,'YTick',(1:upper),'YTickLabel',yticklab,'TickLabelInterpreter','tex')
-    end
     
     plot(time,size1,'.')
     if isLog == 1
@@ -63,7 +54,7 @@ function plotPop(inDir,isLog, thres)
         legend('Type 1','Type 2','Location','southeast')
     end
     hold off
-    grid
+    grid on
     title('Population growth')
 end
 

@@ -5,7 +5,7 @@ function distPlot(inDir,type, gap)
     elseif type == 'B'
         pos = 2;
     end
-    
+    figure
     dirName = strcat(inDir,'*.txt');
     files = dir(dirName);
     files = natsortfiles({files.name});
