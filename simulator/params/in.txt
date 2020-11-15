@@ -1,9 +1,9 @@
-maxGrowthRate1	1
-maxGrowthRate2	1
+maxGrowthRate1	0.5
+maxGrowthRate2	0.5
 excretionRateB	1
-diffusion1	1
-diffusion2	1
-diffusionB	20
+diffusion1	0
+diffusion2	0
+diffusionB	10
 yieldB	1
 monodConstantB	1
 t_max	1000
