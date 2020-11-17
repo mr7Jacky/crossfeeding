@@ -52,7 +52,10 @@ theta1 = linearFluc(theta1);
 [~,col] = size(theta1);
 x = 1:col;
 figure
+set(gca,'xscale','log')
 hold on
+p12 = polyfit(x,theta1,2);
+y12 = p12(1)*x.^2+p12(2)*x+p12(3);
 plot(x,theta1);
 plot(x,theta1,'.');
 theta2 = plotTheta(cells,2);
@@ -60,9 +63,12 @@ theta2 = linearFluc(theta2);
 % save('theta2.mat','theta2')
 [~,col] = size(theta2);
 x = 1:col;
-plot(x,theta2);
+y22 = p22(1)*x.^2+p22(2)*x+p22(3);
+plot(x,theta2)
 plot(x,theta2,'.')
-legend('type1','type1','type2','type2')
+caption12 = sprintf('Fit line 1: y = %f * x^2 + %f * x + %f', p12(1), p12(2),p12(3));
+caption22 = sprintf('Fit line 2: y = %f * x^2 + %f * x + %f', p22(1), p22(2),p22(3));
+legend( caption12,'type1', caption22,'type2')
 hold off
 
 %%
