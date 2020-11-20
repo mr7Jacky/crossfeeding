@@ -1,4 +1,16 @@
-addpath('src/');
+
+inDir = 'data/';
+%% INITIALIZATION
+dirName = strcat(inDir,'*.txt');
+files = dir(dirName);
+files = natsortfiles({files.name});
+cells = cell(1,length(files));
+for i=1:length(files)
+    fileName = strcat(inDir,files{1,i});
+    cur_mat = decodeMatrix(fileName, 3);
+    fprintf('Working on %s.\n',fileName)
+    cells{1,i} = cur_mat{1};
+end
 %%
 inDir = 'data/';
 
@@ -14,17 +26,7 @@ for i=1:length(files)
 end
 
 %%
-load('cells.mat');
-fprintf('Creating gif for bacteria.\n')
-[~,col]=size(cells);
-delta = cell(1,col);
-for i=1:col - 1
-    fprintf('Working on %d|%d.\n',i,col-1)
-    delta{1,i} = cells{1,i+1} - cells{1,i};
-end
-gifCreate(delta,'cells.gif',1);
-%%
-load('cells.mat');
+%load('cells.mat');
 width = calWidth(cells,1);
 % save('width2.mat','width')
 width = rmoutliers(width);
@@ -45,40 +47,31 @@ plot(x,width,'.');
 legend(caption1,caption2, 'Data points');
 hold off
 %%
-load('cells.mat');
+%load('cells.mat');
 theta1 = plotTheta(cells,1);
 theta1 = linearFluc(theta1);
 % save('theta1.mat','theta1')
 [~,col] = size(theta1);
 x = 1:col;
 figure
-set(gca,'xscale','log')
+set(gca,'xscale','log','yscale','log')
 hold on
-p12 = polyfit(x,theta1,2);
-y12 = p12(1)*x.^2+p12(2)*x+p12(3);
-plot(x,theta1);
+p1 = polyfit(x,theta1,1);
+y1 = p1(1)*x+p1(2);
+plot(x,y1)
 plot(x,theta1,'.');
 theta2 = plotTheta(cells,2);
 theta2 = linearFluc(theta2);
 % save('theta2.mat','theta2')
 [~,col] = size(theta2);
-x = 1:col;
-y22 = p22(1)*x.^2+p22(2)*x+p22(3);
-plot(x,theta2)
+p2 = polyfit(x,theta2,1);
+y2 = p2(1)*x+p2(2);
+plot(x,y2)
 plot(x,theta2,'.')
-caption12 = sprintf('Fit line 1: y = %f * x^2 + %f * x + %f', p12(1), p12(2),p12(3));
-caption22 = sprintf('Fit line 2: y = %f * x^2 + %f * x + %f', p22(1), p22(2),p22(3));
-legend( caption12,'type1', caption22,'type2')
+caption1 = sprintf('Fit line 1: y = %f * x + %f', p1(1),p1(2));
+caption2 = sprintf('Fit line 2: y = %f * x + %f', p2(1),p2(2));
+%caption22 = sprintf('Fit line 2: y = %f * x^2 + %f * x + %f', p22(1), p22(2),p22(3));
+legend( caption12,'type1', caption2,'type2')
 hold off
-
-%%
-data = cells;
-c1 = cells{1,1};
-c2 = cells{1,2};
-c3 = cells{1,3};
-sum(sum(c1))
-if(all(c1))
-    disp('hh')
-end
 
 
