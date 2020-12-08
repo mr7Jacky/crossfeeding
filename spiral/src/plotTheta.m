@@ -1,9 +1,9 @@
 function theta_p = plotTheta(data,ctype)
-    [~,col] = size(data);
-    theta_p = 1:col-1;
-    for i = 1 : col - 1
+    theta_p = 1:length(data);
+    for i = 1:length(data)-1
         raw = data{1,i+1}-data{1,i};
         if (sum(any(raw)) == 0)
+            theta_p(i) = 0;
             continue
         end
         % remove unused data
@@ -23,8 +23,6 @@ function theta_p = plotTheta(data,ctype)
         end
         cur_cell = ismember(cur_cell,idx);
         theta_p(i) = calTheta(cur_cell,1);
-        
-        fprintf('Working on %d|%d -> %f\n',i,col-1,theta_p(i))
     end
 end
 

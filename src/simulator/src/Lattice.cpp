@@ -39,6 +39,8 @@ void lattice::putInitialCells(int initialSeparation)
     maxY = max(P.BoxY/2+j1, P.BoxY/2+j2);
 };
 
+// Rewrite initial condition function
+
 void lattice::calculateEventRate()
 {
     int i,j;

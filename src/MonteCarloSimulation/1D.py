@@ -8,24 +8,28 @@ import matplotlib.pyplot as plt
 import random
 import numpy as np
 
-round = 100000
+repeat = 10000
+round = 1000
 pos = 0
-x = [0]
-y = [0]
+x = []
+y = []
 
-for i in range(1,round+1):
-    prob = random.randint(1, 2)
-    if prob == 1:
-        pos += 1
-    elif prob == 2:
-        pos -= 1
-    x.append(i)
+for j in range(repeat):
+    for i in range(1,round+1):
+        prob = random.randint(1, 2)
+        if prob == 1:
+            pos += 1
+        elif prob == 2:
+            pos -= 1
+    x.append(j)
     y.append(pos)
-    
-print('Final Position: %d' % pos)
-print('Average Displacement: %.4f' % np.average(y))
-print('Stand deviattion: %.4f' % np.std(y))
+    pos = 0
 
+
+s = 'Repeat: %d\nRounds: %d\nAverage Displacement: %.4f\nStand deviattion: %.4f' % (repeat, round, np.average(y), np.std(y))
+
+plt.text(0, np.max(y), s, style='italic',
+        bbox={'alpha': 1, 'pad': 10})
 plt.scatter(x, y, color = 'red', marker='.',zorder=2)
 plt.plot(x,y,color='green',zorder=1) 
 plt.show()

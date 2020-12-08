@@ -5,7 +5,7 @@ dirName = 'data/';
 txt2gif(outName,dirName);
 
 %% Plot the radius
-% plotRad(dirName);
+plotRad(dirName);
 
 %% Plot the populatio
 plotPop(dirName,0,3);

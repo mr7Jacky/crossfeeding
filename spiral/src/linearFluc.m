@@ -3,8 +3,8 @@ function ret = linearFluc(data)
     ret = 1:col-1;
     counter = 0;
     isAscend = 1;
-    if sum(gradient(data)) < 0
-        isAscend = 0;
+    if mode(gradient(data) < 0)
+        isAscend = 0;    
     end
     for i = 1 : col - 1
         if (i > 2) && (abs(data(i) - data(i-1)) > pi)
@@ -15,9 +15,5 @@ function ret = linearFluc(data)
         else
             ret(i) = data(i) - 2*pi*counter;
         end
-%         if degMode
-%             % not working
-%             data(i) = rad2deg(data(i) + pi*counter);
-%         end
     end
 end

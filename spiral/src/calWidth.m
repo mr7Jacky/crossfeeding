@@ -2,7 +2,6 @@ function width = calWidth(data,ctype)
     [~,col] = size(data);
     width = zeros(1,col-1);
     for i = 1 : col-1
-        fprintf('Working on %d|%d.\n',i,col-1)
         cur_cell = data{1,i+1}-data{1,i};
         cur_cell = ismember(cur_cell,ctype);
         cur_cell = bwlabel(cur_cell,8);
