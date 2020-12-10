@@ -2,6 +2,10 @@
 #include <time.h>
 #include <math.h>
 #include "Lattice.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
 lattice::lattice(char* fname, char* outDir)
 {
@@ -10,7 +14,9 @@ lattice::lattice(char* fname, char* outDir)
     D = new Array2D<data>(P.BoxX,P.BoxY);
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
-    putInitialCells(2);
+    //putInitialCells(2);
+    //putInitialCellsSideBySide(50);
+    putInitialCellsWithMatrix("side-by-side/20.txt");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
 };
 
@@ -21,6 +27,9 @@ lattice::~lattice()
     delete Del;
 };
 
+/*
+ * Default Initialization
+ */
 void lattice::putInitialCells(int initialSeparation)
 {
     int type, i1, j1, i2, j2;
@@ -37,7 +46,81 @@ void lattice::putInitialCells(int initialSeparation)
     maxX = max(P.BoxX/2+i1, P.BoxX/2+i2);
     minY = min(P.BoxY/2+j1, P.BoxY/2+j2);
     maxY = max(P.BoxY/2+j1, P.BoxY/2+j2);
+    //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n i1 = %d, j1 = %d, i2 = %d, j2 = %d\n", minX, minY, maxX, maxY, i1, j1, i2, j2);
 };
+
+/*
+ * side-by-side stripes of two cells
+ */
+
+void lattice::putInitialCellsSideBySide(int numberOfInitialCellsPerRow)
+{
+    int mid = (int) numberOfInitialCellsPerRow / 2;
+    int type = 1;
+    for (int i = 0; i < mid + 1; i++) {
+        D[0](P.BoxX/2+i, P.BoxY/2).cellType = type;
+        D[0](P.BoxX/2+i, P.BoxY/2+1).cellType = type;
+        D[0](P.BoxX/2-i, P.BoxY/2).cellType = 3-type;
+        D[0](P.BoxX/2-i, P.BoxY/2+1).cellType = 3-type;
+    }
+    minX = P.BoxX/2 - mid;
+    maxX = P.BoxX/2 + mid;
+    minY = P.BoxY/2 - mid;
+    maxY = P.BoxY/2 + mid;
+    if (numberOfInitialCellsPerRow % 2 == 0) {
+        D[0](P.BoxX/2+mid, P.BoxY/2).cellType = 0;
+        D[0](P.BoxX/2+mid, P.BoxY/2+1).cellType = 0;
+        maxX = P.BoxX/2 + mid - 1;
+        maxY = P.BoxY/2 + mid - 1;
+    }
+    //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
+};
+
+/*
+ * Initialize with a given matrix
+ */
+
+void lattice::putInitialCellsWithMatrix(string path)
+{
+    ifstream file;
+    file.open(path);
+    if (!file.is_open()) return;
+    string word;
+    int type = 0;
+    int row = 0;
+    int col = 0;
+    minX = P.BoxX;
+    maxX = 0;
+    minY = P.BoxY;
+    maxY = 0;
+    int count = 0;
+    int zero = 0;
+    while (file >> word)
+    {
+        // Calculate the row and col in the D
+        row = count / 1500;
+        col = count % 1500;
+        // Only read the first matrix from file
+        if (row >= 1500) break;
+        count ++;
+        // Get the type of cell
+        type = stoi(word,nullptr,10);
+        // If no cell read the next cell
+        if (type == 0) {
+            continue;
+        }
+        // add the cell to the matrix
+        D[0](row, col).cellType = type;
+        // calulate the min and max of X and Y
+        if (row < minX) minX = row;
+        if (col < minY) minY = col;
+        if (row > maxX) maxX = row;
+        if (col > maxY) maxY = col;
+    }
+    //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
+};
+
+
 
 // Rewrite initial condition function
 

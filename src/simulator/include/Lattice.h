@@ -2,7 +2,8 @@
 #define _LATTICE_H_
 
 #include "Array.h"
-
+#include <string>
+using namespace std;
 struct eventInfo
 {
     eventInfo(){coord.x = 0; coord.y = 0; };
@@ -18,6 +19,8 @@ public:
     lattice(char* fname, char* outDir);
     ~lattice();
     void putInitialCells(int initialSeparation);
+    void putInitialCellsSideBySide(int numberOfInitialCellsPerRow);
+    void putInitialCellsWithMatrix(string path);
     void calculateEventRate();
     eventInfo findCoordOfEvent();
     int updateEvent(eventInfo info);
