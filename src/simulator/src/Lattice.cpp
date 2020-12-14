@@ -59,7 +59,6 @@ void lattice::putInitialCellsRandom(int numCells, int sideLen)
         sideLen *= 2;
     }
     int x,y;
-    bool check;
     minX = P.BoxX;
     maxX = 0;
     minY = P.BoxY;
@@ -67,37 +66,34 @@ void lattice::putInitialCellsRandom(int numCells, int sideLen)
     int mid = P.BoxX / 2;
     for(int i = 0; i < numCells; i++) {
         srand(time(0));
-        check = false;
-        while (!check) {
-            x = rand() % (mid + 1 + sideLen / 2) + (mid - sideLen / 2);
-            y = rand() % (mid + 1 + sideLen / 2) + (mid - sideLen / 2);
-            if (D[0](P.BoxX/2+x, P.BoxY/2+y).cellType == 0) {
-                check = true;
-                D[0](P.BoxX/2+x, P.BoxY/2+y).cellType = 1;
+        while (true) {
+            x = rand() % (sideLen + 1) + (mid - sideLen / 2);
+            y = rand() % (sideLen + 1) + (mid - sideLen / 2);
+            if (D[0](x, y).cellType == 0) {
+                D[0](x, y).cellType = 1;
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
                 if (x > maxX) maxX = x;
                 if (y > maxY) maxY = y;
+                break;
             }
         }
     }
     for(int i = 0; i < numCells; i++) {
         srand(time(0));
-        check = false;
-        while (!check) {
-            x = rand() % (mid + 1 + sideLen / 2) + (mid - sideLen / 2);
-            y = rand() % (mid + 1 + sideLen / 2) + (mid - sideLen / 2);
-            if (D[0](P.BoxX/2+x, P.BoxY/2+y).cellType == 0) {
-                check = true;
-                D[0](P.BoxX/2+x, P.BoxY/2+y).cellType = 1;
+        while (true) {
+            x = rand() % (sideLen + 1) + (mid - sideLen / 2);
+            y = rand() % (sideLen + 1) + (mid - sideLen / 2);
+            if (D[0](x, y).cellType == 0) {
+                D[0](x, y).cellType = 2;
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
                 if (x > maxX) maxX = x;
                 if (y > maxY) maxY = y;
+                break;
             }
         }
     }
-
     printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
 };
 
@@ -114,14 +110,13 @@ void lattice::putInitialCellsSideBySide(int numberOfInitialCellsPerRow)
         D[0](P.BoxX/2, P.BoxY/2+i).cellType = 2;
         D[0](P.BoxX/2, P.BoxY/2-i).cellType = 2;
     }
-    minX = P.BoxX/2 - mid;
-    maxX = P.BoxX/2 + mid;
+    minX = P.BoxX/2;
+    maxX = P.BoxX/2 + 1;
     minY = P.BoxY/2 - mid;
     maxY = P.BoxY/2 + mid;
     if (numberOfInitialCellsPerRow % 2 == 0) {
-        D[0](P.BoxX/2+mid, P.BoxY/2).cellType = 0;
-        D[0](P.BoxX/2+mid, P.BoxY/2+1).cellType = 0;
-        maxX = P.BoxX/2 + mid - 1;
+        D[0](P.BoxX/2, P.BoxY/2+mid).cellType = 0;
+        D[0](P.BoxX/2+1, P.BoxY/2+mid).cellType = 0;
         maxY = P.BoxY/2 + mid - 1;
     }
     //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
