@@ -19,6 +19,7 @@ public:
     lattice(char* fname, char* outDir);
     ~lattice();
     void putInitialCells(int initialSeparation);
+    void putInitialCellsRandom(int numCells, int sideLen);
     void putInitialCellsSideBySide(int numberOfInitialCellsPerRow);
     void putInitialCellsWithMatrix(string path);
     void calculateEventRate();
