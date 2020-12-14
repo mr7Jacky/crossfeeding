@@ -15,9 +15,9 @@ lattice::lattice(char* fname, char* outDir)
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
     //putInitialCells(2);
-    putInitialCellsRandom(100,20);
+    //putInitialCellsRandom(100,20);
     //putInitialCellsSideBySide(50);
-    //putInitialCellsWithMatrix("side-by-side/20.txt");
+    putInitialCellsWithMatrix("30.txt");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
 };
 
