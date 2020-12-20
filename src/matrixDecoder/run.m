@@ -16,3 +16,6 @@ distPlot(dirName,'A',10);
 
 %%
 plotTotNutrient(dirName);
+
+%%
+plotFrontCell(dirName);

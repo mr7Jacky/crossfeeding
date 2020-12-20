@@ -155,13 +155,16 @@ theta1 = plotTheta(cells,1);
 theta1 = linearFluc(theta1);
 rad_x = 1:length(cells) - 1;
 clear angle_radius
+
 angle_radius(1,:) = theta1;
 angle_radius(2,:) = rad_y;
 angle_radius = prod(angle_radius);
 figure
+set(gca,'yscale','log')
+set(gca,'xscale','log')
 hold on
-plot(rad_x,angle_radius, 'ro')
-plot(rad_x,angle_radius, 'b-')
+plot(rad_x,abs(angle_radius), 'ro')
+plot(rad_x,abs(angle_radius), 'b-')
 hold off
 %% Plot oscillation theta
 %load('cells.mat');

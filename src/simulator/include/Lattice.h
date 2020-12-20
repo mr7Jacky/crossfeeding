@@ -16,12 +16,17 @@ struct eventInfo
 class lattice
 {
 public:
+    // Initialization and destory
     lattice(char* fname, char* outDir);
     ~lattice();
+
+    // Initialization of Colony
     void putInitialCells(int initialSeparation);
     void putInitialCellsRandom(int numCells, int sideLen);
     void putInitialCellsSideBySide(int numberOfInitialCellsPerRow);
     void putInitialCellsWithMatrix(string path);
+
+    // Calculation
     void calculateEventRate();
     eventInfo findCoordOfEvent();
     int updateEvent(eventInfo info);
@@ -33,8 +38,17 @@ public:
     void divideCell(int i, int j, int type);
     void diffuseCell(int i, int j, int type);
     double timeIncrease(double t);
+
+    // Main function
     void simulation(int numOutput);
+
+    // Data I/O
+    void lattice::saveData(string path);
+    void lattice::readData(string path);
+    void lattice::outputAllInfo(string path)
     void writeToFile(int OutputID);
+
+    // Statistics
     int countCells(int& CellNum1, int& CellNum2);
 #ifdef DEBUG
     int checkWeight(int i, int j, const char errorMessage[100]);

@@ -192,7 +192,40 @@ inline void Array2D<data>::Output(FILE* FID)
         }
         fprintf(FID, "\n");
     }
-    /*for (int yi = 0; yi < m_Size.y; yi++)
+#ifdef MUTUALISM
+    for (int yi = 0; yi < m_Size.y; yi++)
+    {
+        for (int xi = 0; xi < m_Size.x; xi++)
+        {
+            fprintf(FID, "%d\t", Data[xi * m_Size.y + yi].nutrientA);
+        }
+        fprintf(FID, "\n");
+    }
+#endif
+    fflush(FID);
+};
+
+template <>
+inline void Array2D<data>::OutputAll(FILE* FID)
+{
+    rewind(FID);
+    for (int yi = 0; yi < m_Size.y; yi++)
+    {
+        for (int xi = 0; xi < m_Size.x; xi++)
+        {
+            fprintf(FID, "%d\t", Data[xi*m_Size.y + yi].cellType);
+        }
+        fprintf(FID, "\n");
+    }
+    for (int yi = 0; yi < m_Size.y; yi++)
+    {
+        for (int xi = 0; xi < m_Size.x; xi++)
+        {
+            fprintf(FID, "%d\t", Data[xi*m_Size.y + yi].nutrientB);
+        }
+        fprintf(FID, "\n");
+    }
+    for (int yi = 0; yi < m_Size.y; yi++)
     {
         for (int xi = 0; xi < m_Size.x; xi++)
         {
@@ -255,9 +288,9 @@ inline void Array2D<data>::Output(FILE* FID)
             fprintf(FID, "%.4e\t", Data[xi*m_Size.y + yi].k7);
         }
         fprintf(FID, "\n");
-    }*/
+    }
 #ifdef MUTUALISM
-    /*for (int yi = 0; yi < m_Size.y; yi++)
+    for (int yi = 0; yi < m_Size.y; yi++)
     {
         for (int xi = 0; xi < m_Size.x; xi++)
         {
@@ -280,7 +313,7 @@ inline void Array2D<data>::Output(FILE* FID)
             fprintf(FID, "%.4e\t", Data[xi*m_Size.y + yi].k10);
         }
         fprintf(FID, "\n");
-    }*/
+    }
     for (int yi = 0; yi < m_Size.y; yi++)
     {
         for (int xi = 0; xi < m_Size.x; xi++)

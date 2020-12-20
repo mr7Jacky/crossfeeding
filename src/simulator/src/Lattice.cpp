@@ -15,7 +15,7 @@ lattice::lattice(char* fname, char* outDir)
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
     //putInitialCells(2);
-    //putInitialCellsRandom(100,20);
+    //putInitialCellsRandom(1 00,20);
     //putInitialCellsSideBySide(50);
     putInitialCellsWithMatrix("30.txt");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
@@ -26,6 +26,61 @@ lattice::~lattice()
     delete D;
     delete CDF;
     delete Del;
+};
+
+class array_wrapper {
+    public:
+        param P;
+        Array2D<data> D;
+        Array2D<double> CDF;
+        Array2D<double> Del;
+};
+
+/*
+ * Save the Array2D
+ */
+void lattice::saveData(string path)
+{
+    ofstream file_obj;
+	file_obj.open(path,ios::out);
+	array_wrapper obj;
+	obj.P = P;
+	obj.D = D;
+    obj.CDF = CDF;
+    obj.Del = Del;
+	file_obj.write((char*)&obj, sizeof(obj));
+	file_obj.close();
+}
+
+/*
+ * Read from the saved data
+ */
+void lattice::readData(string path)
+{
+    ifstream file_obj;
+	file_obj.open(path, ios::in);
+	array_wrapper obj;
+	file_obj.read((char*)&obj, sizeof(obj));
+    P = obj.P;
+    D = obj.D;
+    CDF = obj.CDF;
+    Del = obj.Del;
+    file_obj.close();
+}
+
+void lattice::outputAllInfo(string path)
+{
+    FILE* out;
+#ifdef _WIN32
+   fopen_s(&out, path, "w"); 
+#else
+   out = fopen(path, "w");
+#endif
+    
+    D->OutputAll(out);
+    CDF->Append(out);
+    Del->Append(out);
+    fclose(out);
 };
 
 /*
@@ -125,7 +180,6 @@ void lattice::putInitialCellsSideBySide(int numberOfInitialCellsPerRow)
 /*
  * Initialize with a given matrix
  */
-
 void lattice::putInitialCellsWithMatrix(string path)
 {
     ifstream file;
@@ -166,9 +220,6 @@ void lattice::putInitialCellsWithMatrix(string path)
     //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
 };
 
-
-
-// Rewrite initial condition function
 
 void lattice::calculateEventRate()
 {
@@ -971,8 +1022,6 @@ void lattice::writeToFile(int OutputID)
    sprintf(fileName, "%s/%d.txt", P.DirName, OutputID);
    out = fopen(fileName, "w");
 #endif
-    
-
     
     D->Output(out);
 //    CDF->Append(out);
