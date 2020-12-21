@@ -107,6 +107,7 @@ public:
 	}
 
 	void Output(FILE* FID);
+    void OutputAll(FILE* FID);
     
     void Append(FILE* FID);
     

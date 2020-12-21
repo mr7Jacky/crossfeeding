@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 #include <math.h>
 #include "Lattice.h"
@@ -45,9 +46,9 @@ void lattice::saveData(string path)
 	file_obj.open(path,ios::out);
 	array_wrapper obj;
 	obj.P = P;
-	obj.D = D;
-    obj.CDF = CDF;
-    obj.Del = Del;
+	obj.D = *D;
+    obj.CDF = *CDF;
+    obj.Del = *Del;
 	file_obj.write((char*)&obj, sizeof(obj));
 	file_obj.close();
 }
@@ -62,9 +63,9 @@ void lattice::readData(string path)
 	array_wrapper obj;
 	file_obj.read((char*)&obj, sizeof(obj));
     P = obj.P;
-    D = obj.D;
-    CDF = obj.CDF;
-    Del = obj.Del;
+    D = &obj.D;
+    CDF = &obj.CDF;
+    Del = &obj.Del;
     file_obj.close();
 }
 
@@ -72,11 +73,10 @@ void lattice::outputAllInfo(string path)
 {
     FILE* out;
 #ifdef _WIN32
-   fopen_s(&out, path, "w"); 
+    fopen_s(&out, path, "w"); 
 #else
-   out = fopen(path, "w");
+    out = fopen(path.c_str(), "w");
 #endif
-    
     D->OutputAll(out);
     CDF->Append(out);
     Del->Append(out);

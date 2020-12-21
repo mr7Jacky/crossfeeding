@@ -43,9 +43,9 @@ public:
     void simulation(int numOutput);
 
     // Data I/O
-    void lattice::saveData(string path);
-    void lattice::readData(string path);
-    void lattice::outputAllInfo(string path)
+    void saveData(string path);
+    void readData(string path);
+    void outputAllInfo(string path);
     void writeToFile(int OutputID);
 
     // Statistics
