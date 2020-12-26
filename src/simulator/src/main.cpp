@@ -1,3 +1,8 @@
+#include <cstdlib>
+#include <signal.h>
+#include <iostream>
+#include <unistd.h>
+
 #include "Lattice.h"
 
 //
@@ -32,6 +37,18 @@
 // The name of the input file can also be changed.
 //
 
+lattice * L;
+
+// Define the function to be called when ctrl-c (SIGINT) is sent to process
+void signal_handler(int signum) {
+    string path = "fields_data.lattice";
+    cout << "Exiting the program and saving the data to " << path << endl;
+    L->saveData(path);
+
+    // Terminate program
+    exit(signum);
+}
+
 int main(int argc, char* argv[])
 {
     if(argc < 4) {
@@ -47,7 +64,9 @@ int main(int argc, char* argv[])
 #else
     printf("Commensalism is selected.\n");
 #endif
-    lattice L(argv[1],argv[3]);
-    L.simulation(atoi(argv[2]));
+    signal(SIGINT, signal_handler);
+    L = new lattice(argv[1],argv[3]);
+    L->simulation(atoi(argv[2]));
+    delete L;
     return 0;
 }

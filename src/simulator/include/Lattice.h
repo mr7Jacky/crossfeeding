@@ -18,6 +18,7 @@ class lattice
 public:
     // Initialization and destory
     lattice(char* fname, char* outDir);
+    lattice();
     ~lattice();
 
     // Initialization of Colony

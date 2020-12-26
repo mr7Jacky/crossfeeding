@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include "Lattice.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+
+#include "Lattice.h"
+
 using namespace std;
 
 lattice::lattice(char* fname, char* outDir)
@@ -21,6 +23,8 @@ lattice::lattice(char* fname, char* outDir)
     putInitialCellsWithMatrix("30.txt");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
 };
+
+lattice::lattice() {};
 
 lattice::~lattice()
 {
@@ -187,6 +191,7 @@ void lattice::putInitialCellsWithMatrix(string path)
     if (!file.is_open()) return;
     string word;
     int type = 0;
+    int value;
     int row = 0;
     int col = 0;
     minX = P.BoxX;
@@ -201,7 +206,18 @@ void lattice::putInitialCellsWithMatrix(string path)
         row = count / 1500;
         col = count % 1500;
         // Only read the first matrix from file
-        if (row >= 1500) break;
+        if (row >= 1500) {
+            continue;
+            // if (row >= 3000) {
+            //     value = stoi(word,nullptr,10);
+            //     D[0](row, col).nutrientA = value;
+            //     continue;
+            // } else {
+            //     value = stoi(word,nullptr,10);
+            //     D[0](row, col).nutrientB = value;
+            //     continue;
+            // }
+        }
         count ++;
         // Get the type of cell
         type = stoi(word,nullptr,10);
@@ -991,15 +1007,13 @@ void lattice::simulation(int numOutput)
 //            totalCellNum = countCells(cell1Num, cell2Num);
 //            printf("%d %.4e %ld %ld %.4e %d %d %d\n", outputID, t, totalNumEvents, LONG_MAX, totalEventWeight, cell1Num, cell2Num, totalCellNum);
 //            printf("%d %.4e %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %.4e %d %d %d\n", outputID, t, numEvents[0],numEvents[1],numEvents[2],numEvents[3],numEvents[4],numEvents[5],numEvents[6],numEvents[7],numEvents[8],numEvents[9],numEvents[10], totalEventWeight, cell1Num, cell2Num, totalCellNum);//CELLS INFO
-            printf("Working on %d/%d simulation\n", outputID, numOutput);
-            fflush(stdout);
+            cout << "Working on simulation " << outputID << endl;
             outputID++;
             outputFlag = 0;
         }
         if (minX<=1 || minY<=1 || maxX>=P.BoxX-2 || maxY>=P.BoxY-2 )
         {
-            printf("Colony reaches domain boundary\n");
-            fflush(stdout);
+            cout << "Colony reaches domain boundary" << endl;
             break;
         }
     } while (t<P.t_max);
@@ -1093,3 +1107,4 @@ int lattice::checkWeightBeforeChange(int i, int j, double dk, const char errorMe
 
 #endif
 
+extern lattice L;
