@@ -137,7 +137,7 @@ inline void Array2D<double>::Output(FILE* FID)
 	{
 		for (int xi = 0; xi < m_Size.x; xi++)
 		{
-			fprintf(FID, "%d\t", (int) Data[xi*m_Size.y + yi]);
+			fprintf(FID, "%6E\t", Data[xi*m_Size.y + yi]);
 		}
 		fprintf(FID, "\n");
 	}
@@ -151,7 +151,11 @@ inline void Array2D<double>::Append(FILE* FID)
     {
         for (int xi = 0; xi < m_Size.x; xi++)
         {
-            fprintf(FID, "%d\t", (int) Data[xi*m_Size.y + yi]);
+            fprintf(FID, "%6E\t", Data[xi*m_Size.y + yi]);
+            if (Data[xi*m_Size.y + yi]<0)
+            {
+                printf("%6E\n", Data[xi*m_Size.y + yi]);
+            }
         }
         fprintf(FID, "\n");
     }
@@ -339,17 +343,26 @@ inline double Array2D<double>::linear_interp(const int x0, const int y0, const d
 template <>
 inline void Array2D<DoubleCoord2D>::Output(FILE* FID)
 {
-	rewind(FID);
-	for (int yi = 0; yi < m_Size.y; yi++)
-	{
-		for (int xi = 0; xi < m_Size.x; xi++)
-		{
-			fprintf(FID, "%d\t", (int)Data[xi*m_Size.y + yi].x);
-		}
-		fprintf(FID, "\n");
-	}
-	fflush(FID);
+    rewind(FID);
+    for (int yi = 0; yi < m_Size.y; yi++)
+    {
+        for (int xi = 0; xi < m_Size.x; xi++)
+        {
+            fprintf(FID, "%6E\t", Data[xi*m_Size.y + yi].x);
+        }
+        fprintf(FID, "\n");
+    }
+    for (int yi = 0; yi < m_Size.y; yi++)
+    {
+        for (int xi = 0; xi < m_Size.x; xi++)
+        {
+            fprintf(FID, "%6E\t", Data[xi*m_Size.y + yi].y);
+        }
+        fprintf(FID, "\n");
+    }
+    fflush(FID);
 };
+
 
 typedef Array2D<double> DoubleArray2D;
 typedef Array2D<DoubleCoord2D> CoordArray2D;

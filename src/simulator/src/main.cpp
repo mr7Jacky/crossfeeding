@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 #else
     printf("Commensalism is selected.\n");
 #endif
-    signal(SIGINT, signal_handler);
+    //signal(SIGINT, signal_handler);
     L = new lattice(argv[1],argv[3]);
     L->simulation(atoi(argv[2]));
     delete L;

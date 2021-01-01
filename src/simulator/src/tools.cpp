@@ -112,19 +112,19 @@ param ReadParameters(char* fname, char* outDir)
         else if (strcmp(var_name,"yieldA")==0)
         {
 #ifdef MUTUALISM
-            p.yieldA = atoi(var_value);
+            p.yieldA = atof(var_value);
 #endif
         }
         else if (strcmp(var_name,"diffusionA")==0)
         {
 #ifdef MUTUALISM
-            p.diffusionA = atoi(var_value);
+            p.diffusionA = atof(var_value);
 #endif
         }
         else if (strcmp(var_name,"monodConstantA")==0)
         {
 #ifdef MUTUALISM
-            p.monodConstantA = atoi(var_value);
+            p.monodConstantA = atof(var_value);
 #endif
         }
         else if (strcmp(var_name,"toxicityB")==0)

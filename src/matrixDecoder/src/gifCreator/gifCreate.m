@@ -19,9 +19,10 @@ if ~isColor
         end
     end
 end
+h = figure;
 for n = 1:col
     cur_data = dataset{1,n};
-
+    
     if (isColor)
         dist = mat2jet(cur_data);
         im_t2 = createNote(50,200,2,'Type 2');
@@ -38,12 +39,26 @@ for n = 1:col
             imwrite(img,map,filename,'gif','WriteMode','append');
         end
     else
-        cur_data = cur_data.*(255/global_max);
-        if n == 1
-            imwrite(cur_data,filename,'gif', 'Loopcount',inf);
-        else
-            imwrite(cur_data,filename,'gif','WriteMode','append');
-        end
+%         cur_data = cur_data.*(255/global_max);
+%         
+%         if n == 1
+%             imwrite(cur_data,filename,'gif', 'Loopcount',inf);
+%         else
+%             imwrite(cur_data,filename,'gif','WriteMode','append');
+%         end
+        
+        imagesc(cur_data,[0,global_max]);
+        c = colorbar('Location','south','color','w');
+        c.Label.String = 'Nutrient Concentration';
+        frame = getframe(h); 
+        im = frame2im(frame); 
+        [imind,cm] = rgb2ind(im,256); 
+        % Write to the GIF File 
+        if n == 1 
+            imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
+        else 
+            imwrite(imind,cm,filename,'gif','WriteMode','append'); 
+        end 
     end
 
 end

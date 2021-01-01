@@ -18,9 +18,10 @@ lattice::lattice(char* fname, char* outDir)
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
     //putInitialCells(2);
-    //putInitialCellsRandom(1 00,20);
+    putInitialCellsRandom(100,20);
     //putInitialCellsSideBySide(50);
-    putInitialCellsWithMatrix("30.txt");
+    //putInitialCellsWithMatrix("30.txt");
+    //readData("fields_data.lattice");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
 };
 
@@ -33,28 +34,18 @@ lattice::~lattice()
     delete Del;
 };
 
-class array_wrapper {
-    public:
-        param P;
-        Array2D<data> D;
-        Array2D<double> CDF;
-        Array2D<double> Del;
-};
-
 /*
  * Save the Array2D
  */
 void lattice::saveData(string path)
 {
-    ofstream file_obj;
-	file_obj.open(path,ios::out);
-	array_wrapper obj;
-	obj.P = P;
-	obj.D = *D;
-    obj.CDF = *CDF;
-    obj.Del = *Del;
-	file_obj.write((char*)&obj, sizeof(obj));
-	file_obj.close();
+    ofstream file;
+	file.open(path,ios::out);
+	file.write(reinterpret_cast<char*>(&P),sizeof(P));
+    file.write(reinterpret_cast<char*>(D),sizeof(D));
+    file.write(reinterpret_cast<char*>(CDF),sizeof(CDF));
+    file.write(reinterpret_cast<char*>(Del),sizeof(Del));
+	file.close();
 }
 
 /*
@@ -62,15 +53,13 @@ void lattice::saveData(string path)
  */
 void lattice::readData(string path)
 {
-    ifstream file_obj;
-	file_obj.open(path, ios::in);
-	array_wrapper obj;
-	file_obj.read((char*)&obj, sizeof(obj));
-    P = obj.P;
-    D = &obj.D;
-    CDF = &obj.CDF;
-    Del = &obj.Del;
-    file_obj.close();
+    ifstream file;
+	file.open(path, ios::in);
+	file.read(reinterpret_cast<char*>(&P),sizeof(P));
+    file.read(reinterpret_cast<char*>(D),sizeof(D));
+    file.read(reinterpret_cast<char*>(CDF),sizeof(CDF));
+    file.read(reinterpret_cast<char*>(Del),sizeof(Del));
+    file.close();
 }
 
 void lattice::outputAllInfo(string path)
@@ -190,35 +179,29 @@ void lattice::putInitialCellsWithMatrix(string path)
     file.open(path);
     if (!file.is_open()) return;
     string word;
-    int type = 0;
-    int value;
-    int row = 0;
-    int col = 0;
+    int type, row, col, count, value;
+    type = row = col = count = 0;
     minX = P.BoxX;
-    maxX = 0;
     minY = P.BoxY;
-    maxY = 0;
-    int count = 0;
-    int zero = 0;
+    maxX = maxY = 0;
     while (file >> word)
     {
         // Calculate the row and col in the D
         row = count / 1500;
         col = count % 1500;
         // Only read the first matrix from file
-        if (row >= 1500) {
-            continue;
-            // if (row >= 3000) {
-            //     value = stoi(word,nullptr,10);
-            //     D[0](row, col).nutrientA = value;
-            //     continue;
-            // } else {
-            //     value = stoi(word,nullptr,10);
-            //     D[0](row, col).nutrientB = value;
-            //     continue;
-            // }
-        }
         count ++;
+        if (row >= 1500) {
+            if (row >= 3000) {
+                value = stoi(word,nullptr,10);
+                D[0](col, row - 3000).nutrientA = value;
+                continue;
+            } else {
+                value = stoi(word,nullptr,10);
+                D[0](col, row - 1500).nutrientB = value;
+                continue;
+            }
+        }
         // Get the type of cell
         type = stoi(word,nullptr,10);
         // If no cell read the next cell
@@ -226,7 +209,7 @@ void lattice::putInitialCellsWithMatrix(string path)
             continue;
         }
         // add the cell to the matrix
-        D[0](row, col).cellType = type;
+        D[0](col, row).cellType = type;
         // calulate the min and max of X and Y
         if (row < minX) minX = row;
         if (col < minY) minY = col;
