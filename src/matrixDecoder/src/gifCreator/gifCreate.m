@@ -39,14 +39,6 @@ for n = 1:col
             imwrite(img,map,filename,'gif','WriteMode','append');
         end
     else
-%         cur_data = cur_data.*(255/global_max);
-%         
-%         if n == 1
-%             imwrite(cur_data,filename,'gif', 'Loopcount',inf);
-%         else
-%             imwrite(cur_data,filename,'gif','WriteMode','append');
-%         end
-        
         imagesc(cur_data,[0,global_max]);
         c = colorbar('Location','south','color','w');
         c.Label.String = 'Nutrient Concentration';
