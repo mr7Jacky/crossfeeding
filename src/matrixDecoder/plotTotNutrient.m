@@ -1,19 +1,14 @@
-function plotTotNutrient(inDir)
+function plotTotNutrient(cells)
 % Type A = 0
 % Type B = 1
-    dirName = strcat(inDir,'*.txt');
-    files = dir(dirName);
-    files = natsortfiles({files.name});
-    nutrientA = zeros(1,length(files));
-    nutrientB = zeros(1,length(files));
-    for i=1:length(files)
-        fileName = strcat(inDir,files{1,i});
-        cur_mat = decodeMatrix(fileName,3);
-        fprintf('Working on %s.\n',fileName)
-        nutrientA(1,i) = sum(sum(cur_mat{3}));
-        nutrientB(1,i) = sum(sum(cur_mat{2}));
+    nutrientA = zeros(1,length(cells));
+    nutrientB = zeros(1,length(cells));
+    for i=1:length(cells)
+        fprintf('Working on %d.\n',i)
+        nutrientA(1,i) = sum(sum(cells{1,i}{3,1}));
+        nutrientB(1,i) = sum(sum(cells{1,i}{2,1}));
     end
-    time = 1:length(files);
+    time = 1:length(cells);
     figure
     hold on
     plot(time,nutrientA,'.-')

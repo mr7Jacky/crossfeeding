@@ -1,17 +1,14 @@
-function plotFrontCell(inDir)
-    dirName = strcat(inDir,'*.txt');
-    files = dir(dirName);
-    files = natsortfiles({files.name});
-    front1 = zeros(1,length(files));
-    front2 = zeros(1,length(files));
-    for i=1:length(files)
-        fileName = strcat(inDir,files{1,i});
-        cur_mat = decodeMatrix(fileName,3);
-        fprintf('Working on %s.\n',fileName)
-        front1(1,i) = calFront(cur_mat{1},1);
-        front2(1,i) = calFront(cur_mat{1},2);
+function plotFrontCell(cells)
+    front1 = zeros(1,length(cells));
+    front2 = zeros(1,length(cells));
+    for i=1:length(cells)
+        cur_mat = cells{1,i}{1,1};
+        fprintf('Working on %d.\n',i)
+        front1(1,i) = calFront(cur_mat,1);
+        front2(1,i) = calFront(cur_mat,2);
     end
-    time = 1:length(files);
+    fprintf('Finished.\n')
+    time = 1:length(cells);
     figure
     hold on
     plot(time,front1,'.-')
