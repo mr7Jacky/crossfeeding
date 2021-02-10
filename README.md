@@ -50,7 +50,5 @@ Currently tested:
 #### Reports
 All report will be store in the directory [report](report/)
 
-Quick access:
-|Data Update|Model Type|With Toxicity|File|Parameter|
-|:-:|:-:|:-:|:-:|:-:|
-|2020/10/19|Mutualism|Yes|[link](../)|[param.txt](Data/)|
+#### Data
+Data file is in Google Drive [Shareable Link](https://drive.google.com/drive/folders/1fOVzEPXWOSJHuBxPpb_0kg8kqXtLFrDx?usp=sharing)
