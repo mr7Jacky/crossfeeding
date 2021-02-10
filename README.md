@@ -40,9 +40,6 @@ Currently support functions
 3. Plot the population of the bacteria
 4. Plot the distribution of the nutrient along with x-axis or y-axis
 
-#### The database
-All current output data are store in [Data](Data/). 
-
 Currently tested:
 1. Equal parameters (with toxicity / without toxicity)
 2. Excretion B 10 times larger than excretion A
@@ -51,4 +48,4 @@ Currently tested:
 All report will be store in the directory [report](report/)
 
 #### Data
-Data file is in Google Drive [Shareable Link](https://drive.google.com/drive/folders/1fOVzEPXWOSJHuBxPpb_0kg8kqXtLFrDx?usp=sharing)
+All the generated data file (`.txt`/`.mat`) is in Google Drive [Shareable Link](https://drive.google.com/drive/folders/1tx9p7QnePOKRP24WSqZ85B5nE5KbmCRk?usp=sharing)
