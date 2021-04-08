@@ -10,17 +10,18 @@
 
 using namespace std;
 
-lattice::lattice(char* fname, char* outDir)
+lattice::lattice(char* fname, char* outDir, char* inName)
 {
-    srand (time(NULL));
+    //srand (time(NULL));
+    srand(42);
     P = ReadParameters(fname, outDir);
     D = new Array2D<data>(P.BoxX,P.BoxY);
     CDF = new Array2D<double>(P.BoxX,P.BoxY);
     Del = new Array2D<double>(P.BoxX,P.BoxY);
     //putInitialCells(2);
-    putInitialCellsRandom(100,20);
+    //putInitialCellsRandom(100,20);
     //putInitialCellsSideBySide(50);
-    //putInitialCellsWithMatrix("30.txt");
+    putInitialCellsWithMatrix(inName);
     //readData("fields_data.lattice");
     searchLevels = ((int) log(P.BoxX)/log(2)) -1;
 };
@@ -177,7 +178,10 @@ void lattice::putInitialCellsWithMatrix(string path)
 {
     ifstream file;
     file.open(path);
-    if (!file.is_open()) return;
+    if (!file.is_open()) {
+        cout << "Not such file " << path << endl;
+        return;
+    } 
     string word;
     int type, row, col, count, value;
     type = row = col = count = 0;
@@ -187,8 +191,8 @@ void lattice::putInitialCellsWithMatrix(string path)
     while (file >> word)
     {
         // Calculate the row and col in the D
-        row = count / 1500;
-        col = count % 1500;
+        row = count % 1500;
+        col = count / 1500;
         // Only read the first matrix from file
         count ++;
         if (row >= 1500) {
@@ -203,20 +207,22 @@ void lattice::putInitialCellsWithMatrix(string path)
             }
         }
         // Get the type of cell
+        
         type = stoi(word,nullptr,10);
         // If no cell read the next cell
         if (type == 0) {
             continue;
         }
         // add the cell to the matrix
-        D[0](col, row).cellType = type;
+        D[0](row, col).cellType = type;
+        
         // calulate the min and max of X and Y
         if (row < minX) minX = row;
         if (col < minY) minY = col;
         if (row > maxX) maxX = row;
         if (col > maxY) maxY = col;
     }
-    //printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
+    printf("minX = %d, minY = %d, maxX = %d, maxY = %d\n", minX, minY, maxX, maxY);
 };
 
 
@@ -987,15 +993,15 @@ void lattice::simulation(int numOutput)
         if (outputFlag)
         {
 			writeToFile(outputID);
-            int cell1Num, cell2Num, totalCellNum;
-            countCells(cell1Num, cell2Num);
-            if (cell1Prev == cell1Num || cell2Prev == cell2Num){
-                cout << "stop growing" << endl;
-                break;
-            } else {
-                cell1Prev = cell1Num;
-                cell2Prev = cell2Num;
-            }
+            // int cell1Num, cell2Num, totalCellNum;
+            // countCells(cell1Num, cell2Num);
+            // if (cell1Prev == cell1Num || cell2Prev == cell2Num){
+            //     cout << "stop growing" << endl;
+            //     break;
+            // } else {
+            //     cell1Prev = cell1Num;
+            //     cell2Prev = cell2Num;
+            // }
             
 //            printf("%d %.4e %ld %ld %.4e %d %d %d\n", outputID, t, totalNumEvents, LONG_MAX, totalEventWeight, cell1Num, cell2Num, totalCellNum);
 //            printf("%d %.4e %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld %.4e %d %d %d\n", outputID, t, numEvents[0],numEvents[1],numEvents[2],numEvents[3],numEvents[4],numEvents[5],numEvents[6],numEvents[7],numEvents[8],numEvents[9],numEvents[10], totalEventWeight, cell1Num, cell2Num, totalCellNum);//CELLS INFO

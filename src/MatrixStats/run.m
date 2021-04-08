@@ -1,9 +1,9 @@
 
 dirName = 'data/';
-cells = readTxtMatrix(dirName,3);
+cells = readTxtMatrix(dirName,1);
 save('c.mat','cells','cells', '-v7.3');
 %% Load the data Create the gif
-n = 'strip_diff100_1.mat';
+n = 'strip_diff20_0.mat';
 load(n);
 outName = n;
 txt2gif(cells, outName);
